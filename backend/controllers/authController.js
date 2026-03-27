@@ -33,8 +33,8 @@ async function register(req, res) {
 
     const existing = db.prepare('SELECT id FROM users WHERE email = ? OR student_id = ?').get(email, student_id);
     if (existing) {
-      return res.status(409).json({ error: 'Email or Student ID already registered' });
-    }
+  return res.status(409).json({ error: 'Email or Student ID already registered' });
+}
 
     const password_hash = await bcrypt.hash(password, SALT_ROUNDS);
     const id = uuidv4();
