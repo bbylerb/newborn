@@ -19,14 +19,7 @@ if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 // Security
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
-app.use(cors({
-  origin: [
-    'https://mfu-dorm-connect.vercel.app',
-    'https://mfu-dorm-connect-git-main-6831503102yositas-projects.vercel.app',
-    'https://mfu-dorm-connect-i3o7b7n3z-6831503102yositas-projects.vercel.app'
-  ],
-  credentials: true
-}));
+app.use(cors());
 
 // Rate limiting
 app.use('/api/auth/login', rateLimit({ windowMs: 15 * 60 * 1000, max: 20, message: { error: 'Too many login attempts, please try again later' } }));
