@@ -44,7 +44,6 @@ export default function LoginPage() {
   return (
     <div className="full-page" style={{ maxWidth: '100%' }}>
       <div style={{ background: 'linear-gradient(160deg,#C8102E 0%,#9B0C23 48%,#0f172a 100%)', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <StatusBar light />
         <div style={{ padding: '48px 32px 24px', textAlign: 'center' }}>
           <div style={{ width: 68, height: 68, background: 'rgba(255,255,255,.15)', borderRadius: 22, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30, border: '1px solid rgba(255,255,255,.25)' }}>🏠</div>
           <div style={{ color: '#fff', fontSize: 25, fontWeight: 800 }}>{t('common.appName')}</div>

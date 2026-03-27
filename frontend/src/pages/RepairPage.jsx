@@ -93,7 +93,6 @@ export default function RepairPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="topnav">
-        <StatusBar dark />
         <div className="topnav-title">{t('repair.title')}</div>
         <div className="topnav-sub">{t('repair.subtitle')}</div>
       </div>

@@ -41,7 +41,6 @@ export default function QRCodePage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="topnav">
-        <StatusBar dark />
         <div className="topnav-title">{t('qr.title')}</div>
         <div className="topnav-sub">{t('qr.subtitle')}</div>
       </div>

@@ -53,7 +53,6 @@ export default function RegisterPage() {
   return (
     <div className="full-page">
       <div style={{ background: 'linear-gradient(160deg,#C8102E 0%,#9B0C23 40%,#0f172a 100%)', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <StatusBar light />
         <div style={{ padding: '44px 24px 18px', color: '#fff' }}>
           <Link to="/login" style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(255,255,255,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#fff', textDecoration: 'none', border: '1px solid rgba(255,255,255,.2)' }}>←</Link>
           <div style={{ fontSize: 22, fontWeight: 800, marginTop: 12 }}>{t('auth.registerTitle')}</div>

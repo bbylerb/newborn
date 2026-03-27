@@ -41,7 +41,6 @@ export default function NotificationsPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="topnav">
-        <StatusBar dark />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div><div className="topnav-title">{t('notifications.title')}</div><div className="topnav-sub">{unread} {t('notifications.newCount')}</div></div>
           {unread > 0 && <button className="btn btn-sm btn-ghost" style={{ marginTop: 4 }} onClick={markAllRead}>{t('notifications.markAllRead')}</button>}

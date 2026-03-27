@@ -139,8 +139,7 @@ export default function ProfilePage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* Profile Header */}
-      <div style={{ background: 'linear-gradient(135deg,#C8102E,#9B0C23)', padding: '0 22px 56px', textAlign: 'center', flexShrink: 0, position: 'relative' }}>
-        <StatusBar light />
+      <div style={{ background: 'linear-gradient(135deg,#C8102E,#9B0C23)', padding: '20px 22px 56px', textAlign: 'center', flexShrink: 0, position: 'relative' }}>
         <div className="avatar-wrap">
           <div className="avatar">
             {avatarSrc ? <img src={avatarSrc} alt="avatar" /> : <span>👤</span>}
@@ -156,7 +155,7 @@ export default function ProfilePage() {
 
       <div className="scrl">
         {/* Info Float Card */}
-        <div className="card" style={{ margin: '-36px 18px 14px', padding: 16, position: 'relative', zIndex: 2, boxShadow: 'var(--sh2)' }}>
+        <div className="card" style={{ margin: '36px 18px 14px', padding: 16, position: 'relative', zIndex: 2, boxShadow: 'var(--sh2)' }}>
           {[
             { icon: '🏠', label: t('profile.dormitory'), val: user?.dorm_building },
             { icon: '🚪', label: t('profile.room'), val: user?.room_number },
@@ -170,7 +169,7 @@ export default function ProfilePage() {
           ))}
         </div>
 
-        <div style={{ padding: '0 18px 110px' }}>
+        <div style={{ padding: '0 20px 100px' }}>
           {SETTINGS_SECTIONS.map(section => (
             <div key={section.label} style={{ marginBottom: 8 }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--t3)', letterSpacing: .8, textTransform: 'uppercase', marginBottom: 7, paddingLeft: 4 }}>{section.label}</div>

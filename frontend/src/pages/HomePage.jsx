@@ -36,7 +36,6 @@ export default function HomePage() {
       {/* Header */}
       <div style={{ background: 'linear-gradient(135deg,#C8102E,#9B0C23)', padding: '0 22px 22px', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, background: 'rgba(255,255,255,.06)', borderRadius: '50%' }} />
-        <StatusBar light />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0 16px', position: 'relative' }}>
           <div>
             <div style={{ color: 'rgba(255,255,255,.75)', fontSize: 13 }}>{greeting} 👋</div>

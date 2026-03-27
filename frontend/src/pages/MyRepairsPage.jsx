@@ -34,7 +34,6 @@ export function MyRepairsPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="topnav">
-        <StatusBar dark />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div><div className="topnav-title">{t('repair.myRepairsTitle')}</div><div className="topnav-sub">{repairs.length} requests</div></div>
           <button className="btn btn-sm btn-red" style={{ marginTop: 4 }} onClick={() => navigate('/repair')}>{t('repair.newRequest')}</button>
