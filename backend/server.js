@@ -20,7 +20,11 @@ if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 // Security
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: [
+    'https://mfu-dorm-connect.vercel.app',
+    'https://mfu-dorm-connect-git-main-6831503102yositas-projects.vercel.app',
+    'https://mfu-dorm-connect-i3o7b7n3z-6831503102yositas-projects.vercel.app'
+  ],
   credentials: true
 }));
 
