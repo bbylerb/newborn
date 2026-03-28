@@ -37,12 +37,14 @@ export default function RegisterPage() {
       await register({ full_name: form.full_name, student_id: form.student_id, email: form.email, password: form.password, dorm_building: form.dorm_building, room_number: form.room_number });
     } catch (err) {
   console.error("Register error:", err.response?.data || err.message);
-  setError(
+  showToast(
     err.response?.data?.error ||
     err.message ||
     "Something went wrong",
     'error'
   );
+} finally{
+  setLoadind(false);
 }
   }
 
