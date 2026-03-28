@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { StatusBar, Toast } from '../components/Shared';
@@ -7,7 +7,7 @@ import { useToast } from '../hooks/useToast';
 
 export default function LoginPage() {
   const { t, i18n } = useTranslation();
-  const { login } = useAuth();
+  const navigate = useNavigate();
   const { toast, showToast, clearToast } = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,12 +28,13 @@ export default function LoginPage() {
     if (!validate()) return;
     setLoading(true);
     try {
-      await login(email, password);
-    } catch (err) {
-      showToast(err.response?.data?.error || t('common.error'), 'error');
-    } finally {
-      setLoading(false);
-    }
+  await login(email, password);
+  navigate('/');
+} catch (err) {
+  showToast(err.response?.data?.error || t('common.error'), 'error');
+} finally {
+  setLoading(false);
+}
   }
 
   function switchLang(l) {
