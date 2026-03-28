@@ -5,7 +5,7 @@ import { authAPI } from '../services/api';
 import { StatusBar, Modal, Toast, DORM_BUILDINGS } from '../components/Shared';
 import { useToast } from '../hooks/useToast';
 
-const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || '';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export default function ProfilePage() {
   const { t, i18n } = useTranslation();
@@ -109,8 +109,11 @@ export default function ProfilePage() {
     try { await authAPI.updateProfile({ language: lang }); updateUser({ ...user, language: lang }); } catch {}
   }
 
-  const avatarSrc = user?.avatar_url ? `${API_URL}${user.avatar_url}` : null;
-
+  const avatarSrc = user?.avatar_url
+  ? user.avatar_url.startsWith('http')
+    ? user.avatar_url
+    : `${import.meta.env.VITE_API_URL}${user.avatar_url}`
+  : '';
   const SETTINGS_SECTIONS = [
     {
       label: t('settings.account'),
