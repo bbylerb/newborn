@@ -10,7 +10,7 @@ require('dotenv').config();
 // Init DB (runs migration on startup)
 require('./models/db');
 
-const app = express();
+const app = express();app.set('trust proxy', 1);
 const PORT = process.env.PORT || 4000;
 const UPLOAD_DIR = process.env.UPLOAD_DIR || './uploads';
 
