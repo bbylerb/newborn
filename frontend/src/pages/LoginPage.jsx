@@ -7,6 +7,7 @@ import { useToast } from '../hooks/useToast';
 
 export default function LoginPage() {
   const { t, i18n } = useTranslation();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const { toast, showToast, clearToast } = useToast();
   const [email, setEmail] = useState('');
@@ -28,19 +29,19 @@ export default function LoginPage() {
     if (!validate()) return;
     setLoading(true);
     try {
-  await login(email, password);
-  navigate('/');
-} catch (err) {
-  console.log('LOGIN ERROR:', err);
-showToast(
-  err.response?.data?.error ||
-  err.message ||
-  'Login failed',
-  'error'
-);
-} finally {
-  setLoading(false);
-}
+      await login(email, password);
+      navigate('/');
+    } catch (err) {
+      console.log('LOGIN ERROR:', err);
+      showToast(
+        err.response?.data?.error ||
+        err.message ||
+        'Login failed',
+        'error'
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   function switchLang(l) {
@@ -59,31 +60,70 @@ showToast(
         <div style={{ background: 'var(--card)', borderRadius: '28px 28px 0 0', padding: '28px 24px 40px', flex: 1, overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
             <div className="lang-toggle">
-              <button className={`lang-btn${i18n.language === 'en' ? ' active' : ''}`} onClick={() => switchLang('en')}>🇬🇧 EN</button>
-              <button className={`lang-btn${i18n.language === 'th' ? ' active' : ''}`} onClick={() => switchLang('th')}>🇹🇭 TH</button>
+              <button
+                type="button"
+                className={`lang-btn${i18n.language === 'en' ? ' active' : ''}`}
+                onClick={() => switchLang('en')}
+              >
+                🇬🇧 EN
+              </button>
+              <button
+                type="button"
+                className={`lang-btn${i18n.language === 'th' ? ' active' : ''}`}
+                onClick={() => switchLang('th')}
+              >
+                🇹🇭 TH
+              </button>
             </div>
           </div>
+
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
               <label className="form-label">{t('auth.emailLabel')}</label>
-              <input className={`form-input${errors.email ? ' has-error' : ''}`} type="email" value={email} onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: '' })); }} placeholder={t('auth.emailPlaceholder')} autoComplete="email" />
+              <input
+                className={`form-input${errors.email ? ' has-error' : ''}`}
+                type="email"
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value);
+                  setErrors(p => ({ ...p, email: '' }));
+                }}
+                placeholder={t('auth.emailPlaceholder')}
+                autoComplete="email"
+              />
               {errors.email && <div className="form-error">{errors.email}</div>}
             </div>
+
             <div className="form-group">
               <label className="form-label">{t('auth.passwordLabel')}</label>
-              <input className={`form-input${errors.password ? ' has-error' : ''}`} type="password" value={password} onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })); }} placeholder={t('auth.passwordPlaceholder')} autoComplete="current-password" />
+              <input
+                className={`form-input${errors.password ? ' has-error' : ''}`}
+                type="password"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value);
+                  setErrors(p => ({ ...p, password: '' }));
+                }}
+                placeholder={t('auth.passwordPlaceholder')}
+                autoComplete="current-password"
+              />
               {errors.password && <div className="form-error">{errors.password}</div>}
             </div>
+
             <button className="btn btn-red" type="submit" disabled={loading}>
               {loading ? <span className="spinner sm" /> : t('auth.loginButton')}
             </button>
           </form>
+
           <div style={{ textAlign: 'center', marginTop: 18, fontSize: 14, color: 'var(--t2)' }}>
             {t('auth.noAccount')}{' '}
-            <Link to="/register" style={{ color: 'var(--r)', fontWeight: 700, textDecoration: 'none' }}>{t('auth.signUpLink')}</Link>
+            <Link to="/register" style={{ color: 'var(--r)', fontWeight: 700, textDecoration: 'none' }}>
+              {t('auth.signUpLink')}
+            </Link>
           </div>
         </div>
       </div>
+
       {toast && <Toast key={toast.key} message={toast.message} type={toast.type} onClose={clearToast} />}
     </div>
   );
