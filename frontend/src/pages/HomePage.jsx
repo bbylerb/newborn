@@ -5,11 +5,6 @@ import { useAuth } from '../hooks/useAuth';
 import { parcelsAPI, notificationsAPI } from '../services/api';
 import { StatusBar, Badge } from '../components/Shared';
 
-import parcelIcon from '../assets/parcel-minimal.png';
-import repairIcon from '../assets/repair-minimal.png';
-import qrCodeIcon from '../assets/qr-code-minimal.png';
-import myRepairIcon from '../assets/myrepair-minimal.png';
-
 export default function HomePage() {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -29,28 +24,28 @@ export default function HomePage() {
 
   const FEATURES = [
   {
-    icon: <img src={parcelIcon} alt="parcel" style={{ width: 24, height: 24 }} />,
+    icon: '📦',
     title: t('nav.parcels'),
     desc: t('parcels.title'),
     to: '/parcels',
     cls: 'red',
   },
   {
-    icon: <img src={repairIcon} alt="repair" style={{ width: 24, height: 24 }} />,
+    icon: '🔧',
     title: t('nav.repair'),
     desc: t('repair.subtitle'),
     to: '/repair',
     cls: 'gold',
   },
   {
-    icon: <img src={qrCodeIcon} alt="qr" style={{ width: 24, height: 24 }} />,
+    icon: '🔳',
     title: t('nav.qrCode'),
     desc: t('qr.subtitle'),
     to: '/qr',
     cls: 'blue',
   },
   {
-    icon: <img src={myRepairIcon} alt="my repairs" style={{ width: 24, height: 24 }} />,
+    icon: '📋',
     title: t('repair.myRepairsTitle'),
     desc: t('repair.title'),
     to: '/my-repairs',
@@ -143,6 +138,7 @@ export default function HomePage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    frontsize:21,
                     marginBottom: 11
                   }}
                 >
