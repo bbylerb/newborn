@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
-import { StatusBar } from '../components/Shared';
+import { Info } from 'lucide-react';
 
 function drawQR(canvas, data) {
   if (!canvas) return;
@@ -58,7 +58,7 @@ export default function QRCodePage() {
               </div>
             ))}
             <div style={{ background: '#FEF3C7', borderRadius: 'var(--rads)', padding: '13px 15px', marginTop: 18, display: 'flex', gap: 10, alignItems: 'flex-start', textAlign: 'left' }}>
-              <span style={{ fontSize: 17, flexShrink: 0 }}>ℹ️</span>
+              <Info size={17} color="#92400E" style={{ flexShrink: 0, marginTop: 1 }} />
               <span style={{ fontSize: 13, color: '#92400E', lineHeight: 1.5 }}>{t('qr.hint')}</span>
             </div>
           </div>

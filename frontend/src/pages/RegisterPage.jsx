@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
-import { StatusBar, Toast, DORM_BUILDINGS } from '../components/Shared';
+import { Toast, DORM_BUILDINGS } from '../components/Shared';
 import { useToast } from '../hooks/useToast';
+import { ArrowLeft } from 'lucide-react';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
@@ -36,16 +37,10 @@ export default function RegisterPage() {
     try {
       await register({ full_name: form.full_name, student_id: form.student_id, email: form.email, password: form.password, dorm_building: form.dorm_building, room_number: form.room_number });
     } catch (err) {
-  console.error("Register error:", err.response?.data || err.message);
-  showToast(
-    err.response?.data?.error ||
-    err.message ||
-    "Something went wrong",
-    'error'
-  );
-} finally{
-  setLoadind(false);
-}
+      showToast(err.response?.data?.error || err.message || 'Something went wrong', 'error');
+    } finally {
+      setLoading(false);
+    }
   }
 
   const F = (k, label, type = 'text', placeholder = '') => (
@@ -60,7 +55,9 @@ export default function RegisterPage() {
     <div className="full-page">
       <div style={{ background: 'linear-gradient(160deg,#C8102E 0%,#9B0C23 40%,#0f172a 100%)', flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '44px 24px 18px', color: '#fff' }}>
-          <Link to="/login" style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(255,255,255,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#fff', textDecoration: 'none', border: '1px solid rgba(255,255,255,.2)' }}>←</Link>
+          <Link to="/login" style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(255,255,255,.15)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', textDecoration: 'none', border: '1px solid rgba(255,255,255,.2)' }}>
+            <ArrowLeft size={16} />
+          </Link>
           <div style={{ fontSize: 22, fontWeight: 800, marginTop: 12 }}>{t('auth.registerTitle')}</div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,.7)', marginTop: 3 }}>{t('auth.subtitle')}</div>
         </div>

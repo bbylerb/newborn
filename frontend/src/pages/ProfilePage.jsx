@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { authAPI } from '../services/api';
-import { StatusBar, Modal, Toast, DORM_BUILDINGS } from '../components/Shared';
+import { Modal, Toast, DORM_BUILDINGS } from '../components/Shared';
 import { useToast } from '../hooks/useToast';
+import { Pencil, Lock, Globe, Bell, FileText, Info, LogOut, ChevronRight, Home, DoorOpen, Mail, ShieldCheck, User } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || '';
 
 export default function ProfilePage() {
   const { t, i18n } = useTranslation();
@@ -20,17 +21,14 @@ export default function ProfilePage() {
   const [langOpen, setLangOpen] = useState(false);
   const [logoutConfirm, setLogoutConfirm] = useState(false);
 
-  // Edit profile form
   const [editForm, setEditForm] = useState({ full_name: '', dorm_building: '', room_number: '', email: '' });
   const [editErrors, setEditErrors] = useState({});
   const [editLoading, setEditLoading] = useState(false);
 
-  // Password form
   const [passForm, setPassForm] = useState({ current_password: '', new_password: '', confirm_password: '' });
   const [passErrors, setPassErrors] = useState({});
   const [passLoading, setPassLoading] = useState(false);
 
-  // Notification toggles (stored locally, extendable to backend)
   const [notifToggles, setNotifToggles] = useState({ parcels: true, repairs: true, announcements: true });
 
   function openEdit() {
@@ -109,70 +107,70 @@ export default function ProfilePage() {
     try { await authAPI.updateProfile({ language: lang }); updateUser({ ...user, language: lang }); } catch {}
   }
 
-  const avatarSrc = user?.avatar_url
-  ? user.avatar_url.startsWith('http')
-    ? user.avatar_url
-    : `${import.meta.env.VITE_API_URL}${user.avatar_url}`
-  : '';
+  const avatarSrc = user?.avatar_url ? `${API_URL}${user.avatar_url}` : null;
+
   const SETTINGS_SECTIONS = [
     {
       label: t('settings.account'),
       items: [
-        { icon: '✏️', bg: 'si-blue', label: t('settings.editProfile'), desc: t('settings.editProfileDesc'), action: openEdit },
-        { icon: '🔒', bg: 'si-green', label: t('settings.changePassword'), desc: t('settings.changePasswordDesc'), action: () => { setPassForm({ current_password: '', new_password: '', confirm_password: '' }); setPassErrors({}); setPassOpen(true); } },
+        { icon: <Pencil size={16} color="#1d4ed8" />, bg: 'si-blue', label: t('settings.editProfile'), desc: t('settings.editProfileDesc'), action: openEdit },
+        { icon: <Lock size={16} color="#065f46" />, bg: 'si-green', label: t('settings.changePassword'), desc: t('settings.changePasswordDesc'), action: () => { setPassForm({ current_password: '', new_password: '', confirm_password: '' }); setPassErrors({}); setPassOpen(true); } },
       ]
     },
     {
       label: t('settings.preferences'),
       items: [
-        { icon: '🌐', bg: 'si-gold', label: t('settings.language'), desc: i18n.language === 'th' ? 'ภาษาไทย' : 'English', action: () => setLangOpen(true) },
-        { icon: '🔔', bg: 'si-red', label: t('settings.notifications'), desc: t('settings.notificationsDesc'), action: () => setNotifOpen(true) },
+        { icon: <Globe size={16} color="#b45309" />, bg: 'si-gold', label: t('settings.language'), desc: i18n.language === 'th' ? 'ภาษาไทย' : 'English', action: () => setLangOpen(true) },
+        { icon: <Bell size={16} color="#C8102E" />, bg: 'si-red', label: t('settings.notifications'), desc: t('settings.notificationsDesc'), action: () => setNotifOpen(true) },
       ]
     },
     {
       label: t('settings.other'),
       items: [
-        { icon: '📄', bg: 'si-gray', label: t('settings.privacyPolicy'), desc: t('settings.pdpaCompliant'), action: () => setPrivacyOpen(true) },
-        { icon: 'ℹ️', bg: 'si-gray', label: t('settings.aboutApp'), action: () => setAboutOpen(true) },
-        { icon: '🚪', bg: 'si-red', label: t('settings.logout'), action: () => setLogoutConfirm(true), danger: true },
+        { icon: <FileText size={16} color="#6B7280" />, bg: 'si-gray', label: t('settings.privacyPolicy'), desc: t('settings.pdpaCompliant'), action: () => setPrivacyOpen(true) },
+        { icon: <Info size={16} color="#6B7280" />, bg: 'si-gray', label: t('settings.aboutApp'), action: () => setAboutOpen(true) },
+        { icon: <LogOut size={16} color="#DC2626" />, bg: 'si-red', label: t('settings.logout'), action: () => setLogoutConfirm(true), danger: true },
       ]
     }
   ];
 
+  const INFO_ITEMS = [
+    { icon: <Home size={15} color="var(--t2)" />, label: t('profile.dormitory'), val: user?.dorm_building },
+    { icon: <DoorOpen size={15} color="var(--t2)" />, label: t('profile.room'), val: user?.room_number },
+    { icon: <Mail size={15} color="var(--t2)" />, label: t('profile.email'), val: user?.email },
+    { icon: <ShieldCheck size={15} color="var(--t2)" />, label: t('profile.authMethod'), val: t('profile.emailAuth') },
+  ];
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      {/* Profile Header */}
-      <div style={{ background: 'linear-gradient(135deg,#C8102E,#9B0C23)', padding: '20px 22px 56px', textAlign: 'center', flexShrink: 0, position: 'relative' }}>
+      <div style={{ background: 'linear-gradient(135deg,#C8102E,#9B0C23)', padding: '28px 22px 56px', textAlign: 'center', flexShrink: 0, position: 'relative' }}>
         <div className="avatar-wrap">
           <div className="avatar">
-            {avatarSrc ? <img src={avatarSrc} alt="avatar" /> : <span>👤</span>}
+            {avatarSrc ? <img src={avatarSrc} alt="avatar" /> : <User size={36} color="rgba(255,255,255,.8)" />}
           </div>
           <div className="avatar-edit">
-            ✏️
+            <Pencil size={11} color="#fff" />
             <input type="file" accept="image/*" onChange={handleAvatarUpload} />
           </div>
         </div>
         <div style={{ color: '#fff', fontSize: 20, fontWeight: 800, marginTop: 10 }}>{user?.full_name}</div>
-        <div style={{ color: 'rgba(255,255,255,.75)', fontSize: 13, marginTop: 2 }}>ID: {user?.student_id}</div>
+        <div style={{ color: 'rgba(255,255,255,.7)', fontSize: 13, marginTop: 2 }}>ID: {user?.student_id}</div>
       </div>
 
-      <div className="scrl">
-        {/* Info Float Card */}
-        <div className="card" style={{ margin: '36px 18px 14px', padding: 16, position: 'relative', zIndex: 2, boxShadow: 'var(--sh2)' }}>
-          {[
-            { icon: '🏠', label: t('profile.dormitory'), val: user?.dorm_building },
-            { icon: '🚪', label: t('profile.room'), val: user?.room_number },
-            { icon: '✉️', label: t('profile.email'), val: user?.email },
-            { icon: '🔐', label: t('profile.authMethod'), val: t('profile.emailAuth') },
-          ].map(({ icon, label, val }) => (
+      <div className="scrl" style={{ paddingBottom: 90 }}>
+        <div style={{ margin: '-36px 16px 16px', background: 'var(--card)', borderRadius: 'var(--rad)', padding: '16px 18px', boxShadow: 'var(--sh2)' }}>
+          {INFO_ITEMS.map(({ icon, label, val }) => (
             <div key={label} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }} className="last-no-border">
-              <span style={{ fontSize: 15, width: 22, textAlign: 'center', flexShrink: 0 }}>{icon}</span>
-              <div><div style={{ fontSize: 11, color: 'var(--t2)', fontWeight: 600 }}>{label}</div><div style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', wordBreak: 'break-all' }}>{val}</div></div>
+              <span style={{ width: 22, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>{icon}</span>
+              <div>
+                <div style={{ fontSize: 11, color: 'var(--t2)', fontWeight: 600 }}>{label}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', wordBreak: 'break-all' }}>{val}</div>
+              </div>
             </div>
           ))}
         </div>
 
-        <div style={{ padding: '0 20px 100px' }}>
+        <div style={{ padding: '0 16px' }}>
           {SETTINGS_SECTIONS.map(section => (
             <div key={section.label} style={{ marginBottom: 8 }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--t3)', letterSpacing: .8, textTransform: 'uppercase', marginBottom: 7, paddingLeft: 4 }}>{section.label}</div>
@@ -180,11 +178,11 @@ export default function ProfilePage() {
                 {section.items.map((item, idx) => (
                   <button key={idx} className={`settings-item${item.danger ? ' danger' : ''}`} onClick={item.action} style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', fontFamily: 'inherit', cursor: 'pointer' }}>
                     <div className={`settings-icon ${item.bg}`}>{item.icon}</div>
-                    <div className="si-txt" style={{ flex: 1 }}>
+                    <div style={{ flex: 1 }}>
                       <div className="settings-label" style={{ color: item.danger ? '#DC2626' : 'var(--t1)' }}>{item.label}</div>
                       {item.desc && <div className="settings-desc">{item.desc}</div>}
                     </div>
-                    <span className="settings-chevron">›</span>
+                    <ChevronRight size={16} color="var(--t3)" />
                   </button>
                 ))}
               </div>
@@ -193,14 +191,9 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Edit Profile Modal */}
       <Modal open={editOpen} onClose={() => setEditOpen(false)} title={t('profile.editTitle')}>
         <form onSubmit={handleSaveProfile} noValidate>
-          {[
-            { key: 'full_name', label: t('auth.fullNameLabel'), type: 'text' },
-            { key: 'email', label: t('auth.emailLabel'), type: 'email' },
-            { key: 'room_number', label: t('auth.roomNumberLabel'), type: 'text' },
-          ].map(({ key, label, type }) => (
+          {[{ key: 'full_name', label: t('auth.fullNameLabel'), type: 'text' }, { key: 'email', label: t('auth.emailLabel'), type: 'email' }, { key: 'room_number', label: t('auth.roomNumberLabel'), type: 'text' }].map(({ key, label, type }) => (
             <div className="form-group" key={key}>
               <label className="form-label">{label}</label>
               <input className={`form-input${editErrors[key] ? ' has-error' : ''}`} type={type} value={editForm[key]} onChange={e => { setEditForm(p => ({ ...p, [key]: e.target.value })); setEditErrors(p => ({ ...p, [key]: '' })); }} />
@@ -219,14 +212,9 @@ export default function ProfilePage() {
         </form>
       </Modal>
 
-      {/* Change Password Modal */}
       <Modal open={passOpen} onClose={() => setPassOpen(false)} title={t('profile.changePasswordTitle')}>
         <form onSubmit={handleChangePass} noValidate>
-          {[
-            { key: 'current_password', label: t('profile.currentPassword') },
-            { key: 'new_password', label: t('profile.newPassword') },
-            { key: 'confirm_password', label: t('profile.confirmNewPassword') },
-          ].map(({ key, label }) => (
+          {[{ key: 'current_password', label: t('profile.currentPassword') }, { key: 'new_password', label: t('profile.newPassword') }, { key: 'confirm_password', label: t('profile.confirmNewPassword') }].map(({ key, label }) => (
             <div className="form-group" key={key}>
               <label className="form-label">{label}</label>
               <input className={`form-input${passErrors[key] ? ' has-error' : ''}`} type="password" value={passForm[key]} onChange={e => { setPassForm(p => ({ ...p, [key]: e.target.value })); setPassErrors(p => ({ ...p, [key]: '' })); }} placeholder="••••••••" />
@@ -239,27 +227,21 @@ export default function ProfilePage() {
         </form>
       </Modal>
 
-      {/* Language Picker Modal */}
       <Modal open={langOpen} onClose={() => setLangOpen(false)} title={t('settings.language')}>
         <div className="settings-card">
-          {[{ code: 'en', flag: '🇬🇧', name: 'English' }, { code: 'th', flag: '🇹🇭', name: 'ภาษาไทย' }].map(l => (
+          {[{ code: 'en', label: 'English' }, { code: 'th', label: 'ภาษาไทย' }].map(l => (
             <button key={l.code} className="settings-item" onClick={() => switchLang(l.code)} style={{ width: '100%', border: 'none', fontFamily: 'inherit', cursor: 'pointer', background: 'none' }}>
-              <span style={{ fontSize: 22 }}>{l.flag}</span>
-              <div className="si-txt" style={{ flex: 1 }}><div className="settings-label">{l.name}</div></div>
-              {i18n.language === l.code && <span style={{ color: 'var(--r)', fontWeight: 800, fontSize: 16 }}>✓</span>}
+              <Globe size={18} color="var(--t2)" />
+              <div style={{ flex: 1 }}><div className="settings-label">{l.label}</div></div>
+              {i18n.language === l.code && <span style={{ color: 'var(--r)', fontWeight: 800 }}>✓</span>}
             </button>
           ))}
         </div>
       </Modal>
 
-      {/* Notification Settings Modal */}
       <Modal open={notifOpen} onClose={() => setNotifOpen(false)} title={t('settings.notifications')}>
         <div className="settings-card">
-          {[
-            { key: 'parcels', label: t('settings.notifParcels'), desc: t('settings.notifParcelsDesc') },
-            { key: 'repairs', label: t('settings.notifRepairs'), desc: t('settings.notifRepairsDesc') },
-            { key: 'announcements', label: t('settings.notifAnnouncements'), desc: t('settings.notifAnnouncementsDesc') },
-          ].map(item => (
+          {[{ key: 'parcels', label: t('settings.notifParcels'), desc: t('settings.notifParcelsDesc') }, { key: 'repairs', label: t('settings.notifRepairs'), desc: t('settings.notifRepairsDesc') }, { key: 'announcements', label: t('settings.notifAnnouncements'), desc: t('settings.notifAnnouncementsDesc') }].map(item => (
             <div key={item.key} className="switch-row">
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--t1)' }}>{item.label}</div>
@@ -271,10 +253,9 @@ export default function ProfilePage() {
         </div>
       </Modal>
 
-      {/* Privacy Policy Modal */}
       <Modal open={privacyOpen} onClose={() => setPrivacyOpen(false)} title={t('privacy.title')}>
         <div style={{ background: '#FEF3C7', borderRadius: 'var(--rads)', padding: '12px 14px', marginBottom: 16, display: 'flex', gap: 8 }}>
-          <span style={{ fontSize: 16 }}>🔒</span>
+          <ShieldCheck size={16} color="#92400E" style={{ flexShrink: 0 }} />
           <div style={{ fontSize: 12, color: '#92400E', fontWeight: 600, lineHeight: 1.5 }}>{t('privacy.pdpaDesc')}</div>
         </div>
         <div style={{ fontSize: 13, color: 'var(--t2)', lineHeight: 1.8 }}>
@@ -283,17 +264,17 @@ export default function ProfilePage() {
         </div>
       </Modal>
 
-      {/* About App Modal */}
       <Modal open={aboutOpen} onClose={() => setAboutOpen(false)} title={t('about.title')}>
         <div style={{ textAlign: 'center', padding: '10px 0 20px' }}>
-          <div style={{ fontSize: 50, marginBottom: 12 }}>🏠</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+            <Home size={50} color="var(--r)" strokeWidth={1.2} />
+          </div>
           <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--t1)' }}>{t('common.appName')}</div>
           <div style={{ fontSize: 13, color: 'var(--t2)', marginTop: 4 }}>{t('about.version')}</div>
           <div style={{ fontSize: 13, color: 'var(--t2)', marginTop: 16, lineHeight: 1.7 }}>{t('about.description')}<br />{t('about.copyright')}</div>
         </div>
       </Modal>
 
-      {/* Logout Confirm */}
       {logoutConfirm && (
         <div className="modal-overlay" onClick={() => setLogoutConfirm(false)}>
           <div className="modal-sheet" onClick={e => e.stopPropagation()}>
@@ -307,7 +288,6 @@ export default function ProfilePage() {
       )}
 
       {toast && <Toast key={toast.key} message={toast.message} type={toast.type} onClose={clearToast} />}
-
       <style>{`.last-no-border:last-child { border-bottom: none !important; }`}</style>
     </div>
   );
