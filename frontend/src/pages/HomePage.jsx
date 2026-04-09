@@ -38,7 +38,7 @@ export default function HomePage() {
     cls: 'gold',
   },
   {
-    icon: '🔳',
+    icon: '📲',
     title: t('nav.qrCode'),
     desc: t('qr.subtitle'),
     to: '/qr',
