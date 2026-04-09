@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { User, Pencil, ChevronRight } from "lucide-react";
 
-// 🔥 mock data (แก้เป็นของจริงได้)
+// 🔥 mock data
 const INFO_ITEMS = [
   { label: "Email", val: "john@example.com", icon: "📧" },
   { label: "Phone", val: "0999999999", icon: "📱" }
@@ -52,43 +52,41 @@ export default function ProfilePage() {
         background: "#f5f5f5"
       }}
     >
-      {/* 🔴 HEADER */}
+      {/* 🔴 HEADER (ลดความสูงแล้ว) */}
       <div
         style={{
           background: "linear-gradient(135deg,#C8102E,#9B0C23)",
-          padding: "40px 20px 80px",
+          padding: "28px 20px 40px", // 🔥 ลดจาก 80 → 40
           textAlign: "center",
-          position: "relative"
+          borderRadius: "0 0 20px 20px" // ✨ ทำให้ดูโปร
         }}
       >
-        <div className="avatar-wrap">
-          <div
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              background: "rgba(255,255,255,.2)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto",
-              overflow: "hidden"
-            }}
-          >
-            {avatarSrc ? (
-              <img
-                src={avatarSrc}
-                alt="avatar"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            ) : (
-              <User size={36} color="#fff" />
-            )}
-          </div>
+        <div
+          style={{
+            width: 80,
+            height: 80,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto",
+            overflow: "hidden"
+          }}
+        >
+          {avatarSrc ? (
+            <img
+              src={avatarSrc}
+              alt="avatar"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <User size={36} color="#fff" />
+          )}
+        </div>
 
-          <div style={{ marginTop: 8 }}>
-            <input type="file" accept="image/*" onChange={handleAvatarUpload} />
-          </div>
+        <div style={{ marginTop: 8 }}>
+          <input type="file" accept="image/*" onChange={handleAvatarUpload} />
         </div>
 
         <div
@@ -108,7 +106,13 @@ export default function ProfilePage() {
       </div>
 
       {/* ⚪ CONTENT */}
-      <div style={{ marginTop: -50, padding: "0 16px", flex: 1 }}>
+      <div
+        style={{
+          marginTop: -25, // 🔥 ปรับให้พอดี ไม่ลอยสูงเกิน
+          padding: "0 16px",
+          flex: 1
+        }}
+      >
         {/* INFO CARD */}
         <div
           style={{
