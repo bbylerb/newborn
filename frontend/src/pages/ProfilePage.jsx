@@ -1,39 +1,16 @@
 import React, { useState } from "react";
-import { User, Pencil, ChevronRight } from "lucide-react";
-
-// 🔥 mock data
-const INFO_ITEMS = [
-  { label: "Email", val: "john@example.com", icon: "📧" },
-  { label: "Phone", val: "0999999999", icon: "📱" }
-];
-
-const SETTINGS_SECTIONS = [
-  {
-    label: "General",
-    items: [
-      {
-        label: "Edit Profile",
-        desc: "Update your info",
-        action: () => alert("Edit Profile"),
-        icon: "✏️"
-      },
-      {
-        label: "Logout",
-        desc: "Sign out of account",
-        action: () => alert("Logout"),
-        icon: "🚪",
-        danger: true
-      }
-    ]
-  }
-];
+import { User } from "lucide-react";
 
 export default function ProfilePage() {
   const [avatarSrc, setAvatarSrc] = useState(null);
 
   const user = {
-    full_name: "John Doe",
-    student_id: "12345"
+    full_name: "S",
+    student_id: "123451234",
+    dorm: "F3",
+    room: "123",
+    email: "student@mfu.ac.th",
+    auth: "Email / Password"
   };
 
   const handleAvatarUpload = (e) => {
@@ -44,21 +21,14 @@ export default function ProfilePage() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        background: "#f5f5f5"
-      }}
-    >
-      {/* 🔴 HEADER (ลดความสูงแล้ว) */}
+    <div style={{ background: "#f5f5f5", minHeight: "100vh" }}>
+      
+      {/* 🔴 HEADER (ไม่โค้ง + เตี้ยลง) */}
       <div
         style={{
           background: "linear-gradient(135deg,#C8102E,#9B0C23)",
-          padding: "28px 20px 40px", // 🔥 ลดจาก 80 → 40
-          textAlign: "center",
-          borderRadius: "0 0 20px 20px" // ✨ ทำให้ดูโปร
+          padding: "24px 20px 30px",
+          textAlign: "center"
         }}
       >
         <div
@@ -85,123 +55,90 @@ export default function ProfilePage() {
           )}
         </div>
 
-        <div style={{ marginTop: 8 }}>
-          <input type="file" accept="image/*" onChange={handleAvatarUpload} />
-        </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleAvatarUpload}
+          style={{ marginTop: 8 }}
+        />
 
-        <div
-          style={{
-            color: "#fff",
-            fontSize: 20,
-            fontWeight: 800,
-            marginTop: 10
-          }}
-        >
+        <div style={{ color: "#fff", fontWeight: "bold", marginTop: 10 }}>
           {user.full_name}
         </div>
-
-        <div style={{ color: "rgba(255,255,255,.7)", fontSize: 13 }}>
+        <div style={{ color: "#eee", fontSize: 13 }}>
           ID: {user.student_id}
         </div>
       </div>
 
       {/* ⚪ CONTENT */}
-      <div
-        style={{
-          marginTop: -25, // 🔥 ปรับให้พอดี ไม่ลอยสูงเกิน
-          padding: "0 16px",
-          flex: 1
-        }}
-      >
-        {/* INFO CARD */}
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 12,
-            padding: 16,
-            marginBottom: 16,
-            boxShadow: "0 4px 10px rgba(0,0,0,0.08)"
-          }}
-        >
-          {INFO_ITEMS.map((item) => (
-            <div
-              key={item.label}
-              style={{
-                display: "flex",
-                gap: 10,
-                padding: "10px 0",
-                borderBottom: "1px solid #eee"
-              }}
-            >
-              <span>{item.icon}</span>
-              <div>
-                <div style={{ fontSize: 12, color: "#888" }}>
-                  {item.label}
-                </div>
-                <div style={{ fontWeight: "bold" }}>{item.val}</div>
-              </div>
-            </div>
-          ))}
+      <div style={{ padding: 16 }}>
+        
+        {/* INFO */}
+        <div style={cardStyle}>
+          <Item label="Dormitory" value={user.dorm} />
+          <Item label="Room" value={user.room} />
+          <Item label="Email" value={user.email} />
+          <Item label="Authentication" value={user.auth} />
         </div>
 
-        {/* SETTINGS */}
-        {SETTINGS_SECTIONS.map((section) => (
-          <div key={section.label} style={{ marginBottom: 16 }}>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: "bold",
-                marginBottom: 8,
-                color: "#666"
-              }}
-            >
-              {section.label}
-            </div>
+        {/* ACCOUNT */}
+        <Section title="ACCOUNT">
+          <ButtonItem label="Edit Profile" desc="Update your information" />
+          <ButtonItem label="Change Password" desc="Update your password" />
+        </Section>
 
-            <div
-              style={{
-                background: "#fff",
-                borderRadius: 12,
-                boxShadow: "0 4px 10px rgba(0,0,0,0.08)"
-              }}
-            >
-              {section.items.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={item.action}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    padding: 12,
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer"
-                  }}
-                >
-                  <span style={{ marginRight: 10 }}>{item.icon}</span>
+        {/* PREFERENCES */}
+        <Section title="PREFERENCES">
+          <ButtonItem label="Language" desc="English" />
+          <ButtonItem label="Notifications" desc="Manage alerts" />
+        </Section>
 
-                  <div style={{ flex: 1, textAlign: "left" }}>
-                    <div
-                      style={{
-                        fontWeight: "bold",
-                        color: item.danger ? "red" : "#000"
-                      }}
-                    >
-                      {item.label}
-                    </div>
-                    <div style={{ fontSize: 12, color: "#888" }}>
-                      {item.desc}
-                    </div>
-                  </div>
-
-                  <ChevronRight size={16} />
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
       </div>
+    </div>
+  );
+}
+
+/* 🔧 COMPONENT ย่อย */
+const cardStyle = {
+  background: "#fff",
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 16,
+  boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+};
+
+function Item({ label, value }) {
+  return (
+    <div style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+      <div style={{ fontSize: 12, color: "#888" }}>{label}</div>
+      <div style={{ fontWeight: "bold" }}>{value}</div>
+    </div>
+  );
+}
+
+function Section({ title, children }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: "bold",
+          marginBottom: 8,
+          color: "#666"
+        }}
+      >
+        {title}
+      </div>
+      <div style={cardStyle}>{children}</div>
+    </div>
+  );
+}
+
+function ButtonItem({ label, desc }) {
+  return (
+    <div style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
+      <div style={{ fontWeight: "bold" }}>{label}</div>
+      <div style={{ fontSize: 12, color: "#888" }}>{desc}</div>
     </div>
   );
 }
